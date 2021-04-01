@@ -41,7 +41,7 @@ signup_validator = Validator()
 login_validator = Validator()
 
 # function to see if email registered
-def find_account_by_email(db, email):
+def check_email(db, email):
   c = db.get_collection("users")
   
   user = c.find_one({"email": email})
@@ -64,7 +64,7 @@ class signup(Resource):
     if validation == False:
       return {"statusCode":400, "error": signup_validator.errors}, 400
 
-    email_exist = find_account_by_email(self.db, data["email"])
+    email_exist = check_email(self.db, data["email"])
 
     if email_exist == True:
       return {"statusCode":400, "error": "Email exists"}, 400
